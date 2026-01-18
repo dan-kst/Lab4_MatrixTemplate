@@ -33,6 +33,71 @@ public:
       : m_rows (rows), m_cols (cols), m_data (rows * cols, initial, alloc)
   {
   }
+  // --- Core Operations ---
+
+  /**
+   * @brief Inserts or updates an element at specified coordinates.
+   */
+  void
+  insert (size_type row, size_type col, const T &value)
+  {
+    if (row >= m_rows || col >= m_cols)
+      {
+        throw std::out_of_range ("Matrix indices out of bounds");
+      }
+    m_data[row * m_cols + col] = value;
+  }
+  /**
+   * @brief Sorts a specific row or column.
+   */
+  void
+  sort (size_type index, bool isRow)
+  {
+    if (isRow)
+      {
+        auto row_begin = m_data.begin () + (index * m_cols);
+        std::stable_sort (row_begin, row_begin + m_cols);
+      }
+    else
+      {
+        // Sorting columns in flat storage is more expensive
+        std::vector<T> col_data;
+        for (size_type r = 0; r < m_rows; ++r)
+          col_data.push_back ((*this) (r, index));
+        std::sort (col_data.begin (), col_data.end ());
+        for (size_type r = 0; r < m_rows; ++r)
+          (*this) (r, index) = col_data[r];
+      }
+  }
+  /**
+   * @brief Checks if a row or column is ordered.
+   * @param index The index of the row or column.
+   * @param isRow True for row, false for column.
+   * @param ascending True for ascending, false for descending.
+   */
+  bool
+  isOrdered (size_type index, bool isRow, bool ascending = true) const
+  {
+    auto get_val = [&] (size_type i) -> const T & {
+      return isRow ? (*this) (index, i) : (*this) (i, index);
+    };
+
+    size_type limit = isRow ? m_cols : m_rows;
+    for (size_type i = 1; i < limit; ++i)
+      {
+        if (ascending)
+          {
+            if (get_val (i) < get_val (i - 1))
+              return false;
+          }
+        else
+          {
+            if (get_val (i - 1) < get_val (i))
+              return false;
+          }
+      }
+    return true;
+  }
   // --- Accessors ---
 
   T &
@@ -55,6 +120,28 @@ public:
   cols () const
   {
     return m_cols;
+  }
+  // --- Iterators ---
+
+  auto
+  begin ()
+  {
+    return m_data.begin ();
+  }
+  auto
+  end ()
+  {
+    return m_data.end ();
+  }
+  auto
+  begin () const
+  {
+    return m_data.begin ();
+  }
+  auto
+  end () const
+  {
+    return m_data.end ();
   }
 
 private:
