@@ -40,6 +40,7 @@ protected:
 
 /**
  * @brief Proxy for Addition: R = A + B
+ * It stores references to the operands and calculates only when indexed.
  */
 template <typename L, typename R>
 class MatrixSum : public MatrixExpression<MatrixSum<L, R> >
@@ -70,6 +71,9 @@ private:
   const R &m_rhs_; // NOLINT(cppcoreguidelines-avoid-const-or-ref-data-members)
 };
 
+/**
+ * @brief Overload + for any two MatrixExpressions.
+ */
 template <typename L, typename R>
 auto
 operator+ (const MatrixExpression<L> &lhs, const MatrixExpression<R> &rhs)
