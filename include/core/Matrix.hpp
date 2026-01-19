@@ -2,6 +2,7 @@
 #define MATRIX_HPP
 
 #include <iostream>
+#include "ExpressionTemplate.hpp"
 
 namespace Core
 {
@@ -20,7 +21,8 @@ concept MatrixElement = std::semiregular<T> && requires (T a, T b)
 /**
  * @brief A templated 2D Matrix class using a flat storage model.
  */
-template <MatrixElement T, typename Alloc = std::allocator<T> > class Matrix
+template <MatrixElement T, typename Alloc = std::allocator<T> >
+class Matrix : public MatrixExpression<Matrix<T, Alloc> >
 {
 public:
   using value_type = T;
@@ -28,13 +30,32 @@ public:
   using size_type = std::size_t;
 
   // --- Constructors ---
-  Matrix (size_type rows, size_type cols, const T &initial = T (),
-          const Alloc &alloc = Alloc ())
+  /**
+   * @brief Expression Constructor.
+   * This is where the actual computation happens for operations like A + B + C.
+   */
+  template <typename E>
+  Matrix (const MatrixExpression<E> &expr)
+      : m_rows (expr.rows ()), m_cols (expr.cols ()),
+        m_data (expr.rows () * expr.cols ())
+  {
+    for (size_t r = 0; r < m_rows; ++r)
+      {
+        for (size_t c = 0; c < m_cols; ++c)
+          {
+            (*this) (r, c) = expr (r, c);
+          }
+      }
+  }
+
+  Matrix (size_type rows, size_type cols,
+          const value_type &initial = value_type (),
+          const allocator_type &alloc = allocator_type ())
       : m_rows (rows), m_cols (cols), m_data (rows * cols, initial, alloc)
   {
   }
-  // --- Core Operations ---
 
+  // --- Core Operations ---
   /**
    * @brief Inserts or updates an element at specified coordinates.
    */
@@ -98,8 +119,8 @@ public:
       }
     return true;
   }
-  // --- Accessors ---
 
+  // --- Accessors ---
   T &
   operator() (size_type row, size_type col)
   {
@@ -121,8 +142,8 @@ public:
   {
     return m_cols;
   }
-  // --- Iterators ---
 
+  // --- Iterators ---
   auto
   begin ()
   {
