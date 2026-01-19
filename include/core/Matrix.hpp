@@ -1,6 +1,10 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
+#include <iostream>
+
+namespace Core
+{
 /**
  * @brief Concept to ensure Matrix elements are printable and comparable.
  */
@@ -24,7 +28,6 @@ public:
   using size_type = std::size_t;
 
   // --- Constructors ---
-
   Matrix (size_type rows, size_type cols, const T &initial = T (),
           const Alloc &alloc = Alloc ())
       : m_rows (rows), m_cols (cols), m_data (rows * cols, initial, alloc)
@@ -59,5 +62,6 @@ private:
   size_type m_cols;
   std::vector<T, Alloc> m_data;
 };
+}
 
 #endif // MATRIX_HPP
