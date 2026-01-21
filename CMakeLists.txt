@@ -46,5 +46,11 @@ target_include_directories(MatrixCore INTERFACE
     $<INSTALL_INTERFACE:include>
 )
 
+enable_testing()
+
+# --- Subdirectories ---
+# Each directory will have its own tiny CMakeLists.txt
+add_subdirectory(tests/core)
+
 # --- Include Directories ---
 include_directories(include)
