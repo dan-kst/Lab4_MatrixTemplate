@@ -65,5 +65,3 @@ CMakeUserPresets.json
 build/
 build-clang/
 build-gcc/
-*.clang-format
-*.clang-tidy

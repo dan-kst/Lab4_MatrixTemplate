@@ -1,0 +1,61 @@
+---
+Checks:          '
+  -*,
+  bugprone-*,
+  modernize-*,
+  performance-*,
+  readability-identifier-naming,
+  google-readability-todo
+'
+WarningsAsErrors: '*'
+HeaderFileExtensions:
+  - ''
+  - h
+  - hh
+  - hpp
+  - hxx
+ImplementationFileExtensions:
+  - c
+  - cc
+  - cpp
+  - cxx
+HeaderFilterRegex: 'include/.*|src/.*|tests/.*'
+ExcludeHeaderFilterRegex: ''
+FormatStyle:     file
+User:            dankst
+CheckOptions:
+  readability-identifier-naming.AggressiveDependentMemberLookup: 'false'
+  readability-identifier-naming.CheckAnonFieldInParent: 'false'
+  readability-identifier-naming.ClassCase: CamelCase
+  readability-identifier-naming.ClassHungarianPrefix: Off
+  readability-identifier-naming.ClassIgnoredRegexp: ''
+  readability-identifier-naming.ClassPrefix: ''
+  readability-identifier-naming.ClassSuffix: ''
+  readability-identifier-naming.FunctionCase: camelBack
+  readability-identifier-naming.FunctionIgnoredRegexp: ''
+  readability-identifier-naming.FunctionPrefix: ''
+  readability-identifier-naming.FunctionSuffix: ''
+  readability-identifier-naming.GetConfigPerFile: 'true'
+  readability-identifier-naming.IgnoreFailedSplit: 'false'
+  readability-identifier-naming.IgnoreMainLikeFunctions: 'false'
+  readability-identifier-naming.MacroDefinitionCase: UPPER_CASE
+  readability-identifier-naming.MacroDefinitionIgnoredRegexp: ''
+  readability-identifier-naming.MacroDefinitionPrefix: ''
+  readability-identifier-naming.MacroDefinitionSuffix: ''
+  readability-identifier-naming.PrivateMemberHungarianPrefix: Off
+  readability-identifier-naming.PrivateMemberIgnoredRegexp: ''
+  readability-identifier-naming.PrivateMemberPrefix: ''
+  readability-identifier-naming.PrivateMemberSuffix: _
+  readability-identifier-naming.TemplateParameterCase: UPPER_CASE
+  readability-identifier-naming.TemplateParameterIgnoredRegexp: ''
+  readability-identifier-naming.TemplateParameterPrefix: ''
+  readability-identifier-naming.TemplateParameterSuffix: ''
+  readability-identifier-naming.VariableCase: camelBack
+  readability-identifier-naming.VariableHungarianPrefix: Off
+  readability-identifier-naming.VariableIgnoredRegexp: ''
+  readability-identifier-naming.VariablePrefix: ''
+  readability-identifier-naming.VariableSuffix: ''
+
+SystemHeaders:   false
+...
+
